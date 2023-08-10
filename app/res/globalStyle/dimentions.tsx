@@ -1,7 +1,7 @@
 import {Platform, Dimensions, StatusBar} from 'react-native';
 
 export const SCREEN_WIDTH = Dimensions.get('window').width;
-export const SCREEN_HEIGHT = Dimensions.get('window').height; //44 is the header height in ParentWrapper
+export const SCREEN_HEIGHT = Dimensions.get('window').height; 
 export const PLATFORM_IOS = Platform.OS === 'ios' ? true : false;
 export const STATUSBAR_HEIGHT = PLATFORM_IOS ? 10 : StatusBar.currentHeight;
 export const HEADER_HEIGHT = 36;

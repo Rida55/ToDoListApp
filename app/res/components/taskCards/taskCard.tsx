@@ -1,18 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-// import { Feather } from '@expo/vector-icons'; 
-// You might need to install and import icons from a suitable library
 import { CompletedIcon, Edit, Delete, UnCompletedIcon } from '../../images'
 import { color } from '../../globalStyle/colors';
 import { scale } from '../scale/scale';
-
-interface CustomCardProps {
-    title: string;
-    checked: boolean;
-    onEditPress: () => void;
-    onDeletePress: () => void;
-    onCompleteToggle: () => void; // New prop
-}
+import { CustomCardProps } from '../../interfaces/interfaces';
 
 const TaskCards: React.FC<CustomCardProps> = ({
     title,
@@ -29,18 +20,16 @@ const TaskCards: React.FC<CustomCardProps> = ({
                     onPress={onCompleteToggle}>
                     <Image
                         source={checked ? CompletedIcon : UnCompletedIcon}
-                        tintColor={color.primary}
-                        style={{ width: scale(25), height: scale(25) }}
+                        tintColor={checked ?color.primary:color.blackRgbaBlur}
+                        style={{ width: scale(20), height: scale(20) }}
                     />
                 </TouchableOpacity>
-       
                 <Text style={[styles.title,{ textDecorationLine:checked?'line-through':'none'}]}>{title}</Text>
                 <TouchableOpacity style={styles.iconContainer} onPress={onEditPress}>
-                    <Image source={Edit} tintColor={color.primary} style={{ width: scale(25), height: scale(25), }} />
+                <Image source={Edit} tintColor={color.primary} style={{ width: scale(23), height: scale(23), }} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconContainer} onPress={onDeletePress}>
-                    <Image source={Delete} tintColor={color.primary} style={{ width: scale(25), height: scale(25), }} />
-
+                <Image source={Delete} tintColor={color.primary} style={{ width: scale(23), height: scale(23), }} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -49,7 +38,8 @@ const TaskCards: React.FC<CustomCardProps> = ({
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10,
+        marginTop:scale(20),
+        marginVertical: scale(10),
         alignItems: 'center',
     },
     card: {
@@ -57,23 +47,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         width: '80%',
-        height: 40,
-        borderRadius: 8,
-        shadowColor: 'black',
+        borderRadius: scale(10),
+        shadowColor: color.black,
         shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
         elevation: 4,
-        paddingHorizontal: 10,
+        paddingHorizontal: scale(10),
     },
     iconContainer: {
-        marginRight: 10,
+        marginRight: scale(14),
     },
     title: {
         flex: 1,
         fontSize: 16,
-        color: 'black',
+        color: color.black,
+        width:'70%',
+        paddingTop:scale(10),
+        paddingBottom:scale(10),
+        paddingRight:scale(3)
     },
 });
-
 export default TaskCards;

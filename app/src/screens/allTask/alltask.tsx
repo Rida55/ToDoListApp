@@ -1,25 +1,21 @@
-import { FlatList, ImageSourcePropType, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { useState,useRef } from 'react';
-import TaskCards from '../../../res/components/taskCards/taskCard';
-import MainHeader from '../../../res/components/header/MainHeader';
-import {AllTaskStrings} from '../../../res/strings/AppConstant'
+import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { AllTaskStrings } from '../../../res/strings/AppConstant'
 import { styles } from './style';
-import { useAppSelector ,useAppDispatch} from '../../redux/Hooks';
+import { useAppSelector, useAppDispatch } from '../../redux/Hooks';
 import { addTask, deleteTask, toggleTask, updateTask } from '../../redux/slice/taskSlice';
 import { color } from '../../../res/globalStyle/colors';
+import { MainHeader, TaskCards } from '../../../res/components';
+import { Task } from '../../../res/interfaces/interfaces';
 
-interface Task {
-    id: string;
-    title: string;
-    checked: boolean;
-  }
 const AllTasks = () => {
 
   const selector = useAppSelector((state: { tasks: { tasks: Task[] } }) => state.tasks.tasks);
   const dispatch = useAppDispatch();
+  const inputFocus = useRef<TextInput | null>(null);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [showError, setShowError] = useState<boolean>(false);
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); // State for tracking selected task for editing
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
@@ -39,32 +35,26 @@ const AllTasks = () => {
       setShowError(true);
     }
   };
-
   const handleEditPress = (taskId: string, taskTitle: string) => {
+    inputFocus.current?.focus();
     setSelectedTaskId(taskId);
     setNewTaskTitle(taskTitle);
   };
-      const handleDeletePress = (taskId: string) => {
-        console.log('Delete press');
-        dispatch(deleteTask(taskId));
-      };
-    
-      const handleCompleteToggle = (taskId: string) => {
-        console.log('Complete toggle');
-        dispatch(toggleTask(taskId));
-      };
-     
-      const renderNoData = () => (
-        <View style={styles.noDataContainer}>
-          <Text style={styles.noDataText}>{AllTaskStrings.emptyListDescription}</Text>
-        </View>
-      );
-    return (
-   
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-<MainHeader heading={AllTaskStrings.header} pageType={AllTaskStrings.header}/>
-    
-       
+  const handleDeletePress = (taskId: string) => {
+    dispatch(deleteTask(taskId));
+  };
+
+  const handleCompleteToggle = (taskId: string) => {
+    dispatch(toggleTask(taskId));
+  };
+  const renderNoData = () => (
+    <View style={styles.noDataContainer}>
+      <Text style={styles.noDataText}>{AllTaskStrings.emptyListDescription}</Text>
+    </View>
+  );
+  return (
+    <View style={{ flex: 1, backgroundColor: color.white }}>
+      <MainHeader heading={AllTaskStrings.header} />
       <FlatList
         data={selector}
         keyExtractor={item => item.id}
@@ -72,20 +62,18 @@ const AllTasks = () => {
           <TaskCards
             title={item.title}
             checked={item.checked}
-            onEditPress={ ()=>handleEditPress(item.id, item.title)}
+            onEditPress={() => handleEditPress(item.id, item.title)}
             onDeletePress={() => handleDeletePress(item.id)}
             onCompleteToggle={() => handleCompleteToggle(item.id)}
-            
-          
           />
         )}
         ListEmptyComponent={renderNoData}
-
       />
-        <View style={styles.floatingButton}>
+      <View style={styles.floatingButton}>
         <TextInput
+          ref={inputFocus}
           style={styles.textInput}
-          placeholder={"+ Add a task"}
+          placeholder={AllTaskStrings.createTask}
           placeholderTextColor={color.blackRgbaBlur}
           value={newTaskTitle}
           onChangeText={text => {
@@ -103,10 +91,8 @@ const AllTasks = () => {
       {showError && (
         <Text style={styles.errorMessage}>{AllTaskStrings.validationtext}</Text>
       )}
-      
-        </View>
-       
-    );
+    </View>
+  );
 };
 
 export default AllTasks;

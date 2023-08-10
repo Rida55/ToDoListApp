@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Task, TaskState } from '../../../res/interfaces/interfaces';
 
-interface Task {
-  id: string;
-  title: string;
-  checked: boolean;
-}
 
-interface TaskState {
-  tasks: Task[];
-}
 
 const initialState: TaskState = {
   tasks: [
@@ -26,11 +19,11 @@ const taskSlice = createSlice({
       state.tasks.push(action.payload);
     },
     updateTask: (state, action: PayloadAction<{ id: string; title: string }>) => {
-        const taskToUpdate = state.tasks.find(task => task.id === action.payload.id);
-        if (taskToUpdate) {
-          taskToUpdate.title = action.payload.title;
-        }
-      },
+      const taskToUpdate = state.tasks.find(task => task.id === action.payload.id);
+      if (taskToUpdate) {
+        taskToUpdate.title = action.payload.title;
+      }
+    },
     deleteTask(state, action: PayloadAction<string>) {
       state.tasks = state.tasks.filter(task => task.id !== action.payload);
     },
@@ -43,6 +36,6 @@ const taskSlice = createSlice({
   },
 });
 
-export const { addTask, deleteTask, toggleTask,updateTask } = taskSlice.actions;
+export const { addTask, deleteTask, toggleTask, updateTask } = taskSlice.actions;
 
 export default taskSlice.reducer;

@@ -2,11 +2,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 // import {tutorialSlice} from './slice/userSlice';
 import {persistReducer, persistStore} from 'redux-persist';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {userSlice} from './slice/auth-slice';
 import thunkMiddleware from 'redux-thunk';
 import taskSlice from './slice/taskSlice';
-// import readinglistSlice from './slice/readinglistSlice';
 
 const persistConfig = {
   key: 'root',

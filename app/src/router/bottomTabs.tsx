@@ -1,10 +1,10 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { AllTasks, Completed, UnCompleted } from '../screens/index';
 import { AllTask, CompletedIcon, UnCompletedIcon } from '../../res/images';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { scale } from '../../res/components/scale/scale';
-import { PLATFORM_IOS, SCREEN_WIDTH } from '../../res/globalStyle/dimentions';
+import { PLATFORM_IOS } from '../../res/globalStyle/dimentions';
 import NavigationStrings from '../../res/strings/NavigationStrings'
 import { color } from '../../res/globalStyle/colors';
 const Tab = createBottomTabNavigator();

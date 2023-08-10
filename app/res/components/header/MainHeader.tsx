@@ -1,44 +1,37 @@
-import { View, Text, StatusBar, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { scale } from '../scale/scale';
-import { User, Edit, Delete, UnCompletedIcon, Day } from '../../images'
-
+import { Day } from '../../images'
 import { FONTS } from '../../globalStyle/themeSizes';
 import { color } from '../../globalStyle/colors';
-interface Props {
-  heading: string;
-  pageType: string;
-}
-const MainHeader: React.FC<Props> = ({ heading, pageType }) => {
+import { headerProps } from '../../interfaces/interfaces';
+
+const MainHeader: React.FC<headerProps> = ({ heading }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  const updateDate = () => {
-    setCurrentDate(new Date());
-  };
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
-    }, 1000); // Update every second
+    }, 1000); 
 
     return () => clearInterval(interval);
   }, []);
   return (
-    <>
 
-      <View style={styles.headerView}>
-        <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>{heading}</Text>
-          <View style={styles.dateView}>
-            <Text style={styles.dateText}>{currentDate.toDateString()}</Text>
-          </View>
+    <View style={styles.headerView}>
+      <View style={styles.headerTextView}>
+        <Text style={styles.headerText}>{heading}</Text>
+        <View style={styles.dateView}>
+          <Text style={styles.dateText}>{currentDate.toDateString()}</Text>
         </View>
-        <Image
-        tintColor={color.white}
-          source={Day}
-          style={styles.userImage}
-        />
       </View>
-    </>
+      <Image
+        tintColor={color.white}
+        source={Day}
+        style={styles.userImage}
+      />
+    </View>
+
   );
 };
 
